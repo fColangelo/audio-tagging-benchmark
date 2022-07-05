@@ -1,0 +1,37 @@
+model_checkpoint:
+  _target_: pytorch_lightning.callbacks.ModelCheckpoint
+  monitor: "val/acc" # name of the logged metric which determines when model is improving
+  mode: "max" # "max" means higher metric value is better, can be also "min"
+  save_top_k: 1 # save k best models (determined by above metric)
+  save_last: True # additionaly always save model from last epoch
+  verbose: False
+  dirpath: "checkpoints/"
+  filename: "epoch_{epoch:03d}"
+  auto_insert_metric_name: False
+
+model_summary:
+  _target_: pytorch_lightning.callbacks.RichModelSummary
+  max_depth: -1
+
+rich_progress_bar:
+  _target_: pytorch_lightning.callbacks.RichProgressBar
+
+progressive_resize:
+  _target_: src.utils.callbacks.Progressive_training
+  new_res_lr: 5E-3
+  adaptation_lr: 1E-3
+  epochs_new_res: 20
+  optimizer_cfg: ${model.optimizer}
+  splits:
+    1:
+      epochs: 40
+      f_res: 64
+      t_res: 128
+    2:
+      epochs: 40
+      f_res: 96
+      t_res: 214
+    3:
+      epochs: 90
+      f_res: 128
+      t_res: 300

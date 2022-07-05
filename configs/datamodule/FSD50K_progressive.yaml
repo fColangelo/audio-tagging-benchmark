@@ -1,0 +1,48 @@
+dataset:  FSD50K
+num_classes: 200
+batch_size: 64
+num_workers: 0
+pin_memory: False
+
+
+training_dataset:
+  _target_: src.datamodules.components.datasets.FSD50K
+  audio_cfg: ${audio}
+  augum_cfg:
+      time_domain: None
+
+      frequency_domain:
+        toTensor:
+          _target_: torchvision.transforms.ToTensor
+  data_dir: ${data_dir}
+  prog_resize: ???
+  res_p: 0.5
+  mode: "train"
+  
+validation_dataset:
+  _target_: src.datamodules.components.datasets.FSD50K
+  audio_cfg: ${audio}
+  work_dir: ${data_dir}
+  augum_cfg:
+      time_domain: None
+
+      frequency_domain:
+        toTensor:
+          _target_: torchvision.transforms.ToTensor
+  prog_resize: None
+  res_p: 0.0
+  mode: "val"
+
+test_dataset:
+  _target_: src.datamodules.components.datasets.FSD50K
+  audio_cfg: ${audio}
+  work_dir: ${data_dir}
+  augum_cfg:
+      time_domain: None
+
+      frequency_domain:
+        toTensor:
+          _target_: torchvision.transforms.ToTensor
+  prog_resize: None
+  res_p: 0.0
+  mode: "test"

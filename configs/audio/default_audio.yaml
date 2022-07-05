@@ -1,0 +1,13 @@
+transform:
+    #_target_: torchaudio.transforms.MelSpectrogram
+    sample_rate: 32000
+    n_fft: 1024
+    win_length: 1024
+    hop_length: 512
+    f_min: 0.0
+    f_max: 16000.0
+    n_mels: 128
+    window_fn: 
+        _target_: hydra.utils.get_method
+        path: torch.hann_window
+    spec_time_steps: 300
