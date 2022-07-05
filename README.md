@@ -1,5 +1,5 @@
 # Audio Progressive Resize
-Repo to collect code and results for experiments on progressive resize applied to audio event classification
+Repo to benchmark different audio tagging models and techniques, to support reproducibility and reliable results.
 
 
 # Dataset structure
@@ -19,10 +19,4 @@ Each dataset has a change_resolution implemented. Depending on the type of datas
 
 # WIP
 
-- Figuring out how to best configure progressive runs, specifically audio cfg objects. Should be something easily   pluggable in external code. It should adjust learning rate and dataset resolution based on epochs and transitions made in config. Options:
-    - Callback? 
-    - 
-
-# Configs
-
-- details for the progressive resize are kept in the datamodule config.
+- 
