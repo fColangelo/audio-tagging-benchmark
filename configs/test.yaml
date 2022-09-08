@@ -16,17 +16,23 @@ defaults:
   - override hydra/hydra_logging: colorlog
   - override hydra/job_logging: colorlog
 
+hydra:
+  run:
+    dir: logs/evaluations/runs/${name}/${now:%Y-%m-%d}_${now:%H-%M-%S}
+  sweep:
+    dir: logs/evaluations/multiruns/${name}/${now:%Y-%m-%d}_${now:%H-%M-%S}
+    subdir: ${hydra.job.num}
+
+
+# path to original working directory
+# hydra hijacks working directory by changing it to the new log directory
+# https://hydra.cc/docs/next/tutorials/basic/running_your_app/working_directory
 original_work_dir: ${hydra:runtime.cwd}
 
-data_dir: ${original_work_dir}/data/
+# path to folder with data
 
+# pretty print config at the start of the run using Rich library
 print_config: True
 
-ignore_warnings: True
-
-seed: null
-
-name: "default"
-
-# passing checkpoint path is necessary
-ckpt_path: ???
+# seed for random number generators in pytorch, numpy and python.random
+seed: 2411

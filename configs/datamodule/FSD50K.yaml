@@ -3,45 +3,52 @@ num_classes: 200
 batch_size: 64
 num_workers: 0
 pin_memory: False
+data_dir: D:\\FSD50K\\
 
+audio_transform:
+    #_target_: torchaudio.transforms.MelSpectrogram
+    sample_rate: 32000
+    n_fft: 1024
+    win_length: 1024
+    hop_length: 512
+    f_min: 0.0
+    f_max: 16000.0
+    n_mels: 128
+    window_fn: 
+        _target_: hydra.utils.get_method
+        path: torch.hann_window
+    spec_time_steps: 300
 
 training_dataset:
   _target_: src.datamodules.components.datasets.FSD50K
-  audio_cfg: ${audio}
+  audio_cfg: ${datamodule.audio_transform}
   augum_cfg:
-      time_domain: None
-
+      time_domain: 
       frequency_domain:
         toTensor:
           _target_: torchvision.transforms.ToTensor
-  data_dir: ${data_dir}
-  prog_resize: None
-  res_p: 0.0
+  data_dir: ${datamodule.data_dir}
   mode: "train"
   
 validation_dataset:
   _target_: src.datamodules.components.datasets.FSD50K
-  audio_cfg: ${audio}
-  work_dir: ${data_dir}
+  audio_cfg: ${datamodule.audio_transform}
+  work_dir: ${datamodule.data_dir}
   augum_cfg:
-      time_domain: None
-
+      time_domain: 
       frequency_domain:
         toTensor:
           _target_: torchvision.transforms.ToTensor
-  prog_resize: None
-  res_p: 0.0
+
   mode: "val"
+
 test_dataset:
   _target_: src.datamodules.components.datasets.FSD50K
-  audio_cfg: ${audio}
-  work_dir: ${data_dir}
+  audio_cfg: ${datamodule.audio_transform}
+  work_dir: ${datamodule.data_dir}
   augum_cfg:
-      time_domain: None
-
+      time_domain: 
       frequency_domain:
         toTensor:
           _target_: torchvision.transforms.ToTensor
-  prog_resize: None
-  res_p: 0.0
   mode: "test"

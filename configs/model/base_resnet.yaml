@@ -1,0 +1,36 @@
+# @package _global_
+Model:
+  Net:
+    _target_: timm.create_model
+    _args_: ['resnet34']
+    pretrained: True
+    num_classes: ${datamodule.num_classes}
+
+  Loss:
+    _target_: torch.nn.BCEWithLogitsLoss
+
+  Metrics:
+    Metric_list:
+      AUROC:
+        _target_: torchmetrics.classification.auroc.AUROC
+        num_classes: ${datamodule.num_classes}
+
+      Average_precision:
+        _target_: torchmetrics.classification.avg_precision.AveragePrecision
+        num_classes: ${datamodule.num_classes}
+
+      Confusion_matrix:
+        _target_: torchmetrics.classification.confusion_matrix.ConfusionMatrix
+        num_classes: ${datamodule.num_classes}
+        multilabel: True
+
+      Lwlrap:
+        _target_: utils.metrics.Lwlrap 
+        num_classes: ${datamodule.num_classes}
+    Metrics_params:  
+      cm_figsize: 60 # FSD needs a BIG matrix for 200 classes
+
+  Optimizer:
+    _target_: torch.optim.AdamW
+    lr: 0.001
+    weight_decay: 0.01

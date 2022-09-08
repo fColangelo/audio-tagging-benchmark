@@ -1,12 +1,41 @@
-_target_: pytorch_lightning.Trainer
+# @package _global_
+Trainer:
+  _target_: pytorch_lightning.Trainer
+  gpus: 1
+  #min_epochs: 1
+  max_epochs: 50
+  # num_sanity_val_steps: 0
+  resume_from_checkpoint: null # ckpt path
 
-gpus: 0
+  #gpus: 4
+  #strategy: ddp
+  #sync_batchnorm: True
 
-min_epochs: 1
-max_epochs: 10
+Logger:
+  _target_: pytorch_lightning.loggers.tensorboard.TensorBoardLogger
+  save_dir: "tensorboard/"
+  name: null
+  version: ${name}
+  log_graph: False
+  default_hp_metric: True
+  prefix: ""
 
-# number of validation steps to execute at the beginning of the training
-# num_sanity_val_steps: 0
+Callbacks:
+  model_checkpoint:
+    _target_: pytorch_lightning.callbacks.ModelCheckpoint
+    monitor: "val/acc" # name of the logged metric which determines when model is improving
+    mode: "max" # "max" means higher metric value is better, can be also "min"
+    save_top_k: 1 # save k best models (determined by above metric)
+    save_last: True # additionaly always save model from last epoch
+    verbose: False
+    dirpath: "checkpoints/"
+    filename: "epoch_{epoch:03d}"
+    auto_insert_metric_name: False
 
-# ckpt path
-resume_from_checkpoint: null
+  model_summary:
+    _target_: pytorch_lightning.callbacks.RichModelSummary
+    max_depth: -1
+
+  rich_progress_bar:
+    _target_: pytorch_lightning.callbacks.RichProgressBar
+

@@ -4,17 +4,14 @@
 # python train.py experiment=example
 
 defaults:
-  - override /datamodule: mnist.yaml
-  - override /model: mnist.yaml
-  - override /callbacks: default.yaml
-  - override /logger: null
-  - override /trainer: default.yaml
+  - override /datamodule: FSD50K.yaml
+  - override /model: base_resnet.yaml
 
 # all parameters below will be merged with parameters from default configurations set above
 # this allows you to overwrite only specified parameters
 
 # name of the run determines folder name in logs
-name: "simple_dense_net"
+name: "debug"
 
 seed: 12345
 
@@ -23,16 +20,20 @@ trainer:
   max_epochs: 10
   gradient_clip_val: 0.5
 
-model:
-  lr: 0.002
-  net:
-    lin1_size: 128
-    lin2_size: 256
-    lin3_size: 64
+Optimizer:
+  lr: 0.003
 
 datamodule:
   batch_size: 64
 
-logger:
-  wandb:
-    tags: ["mnist", "${name}"]
+
+
+
+
+
+hydra:
+  run:
+    dir: logs/debugs/runs/${name}/${now:%Y-%m-%d}_${now:%H-%M-%S}
+  sweep:
+    dir: logs/debugs/multiruns/${name}/${now:%Y-%m-%d}_${now:%H-%M-%S}
+    subdir: ${hydra.job.num}
