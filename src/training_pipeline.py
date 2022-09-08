@@ -29,7 +29,7 @@ def train(config: DictConfig) -> Optional[float]:
     seed_everything(config.seed, workers=True)
 
     # Init lightning datamodule
-    log.info(f"Instantiating datamodule for Dataset <{config.datamodule.dataset}>")
+    log.info(f"Instantiating datamodule for Dataset <{config.Datamodule.dataset}>")
     datamodule: LightningDataModule = AudioTagDataModule(config)
 
     # Init lightning model
@@ -38,8 +38,8 @@ def train(config: DictConfig) -> Optional[float]:
 
     # Init lightning callbacks
     callbacks: List[Callback] = []
-    if "callbacks" in config:
-        for _, cb_conf in config.callbacks.items():
+    if "Callbacks" in config:
+        for _, cb_conf in config.Callbacks.items():
             log.info(f"Instantiating callback <{cb_conf._target_}>")
             callbacks.append(instantiate(cb_conf))
 

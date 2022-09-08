@@ -4,8 +4,8 @@
 # python train.py experiment=example
 
 defaults:
-  - override /datamodule: FSD50K.yaml
-  - override /model: base_resnet.yaml
+  - override /Datamodule: FSD50K_baseline.yaml
+  - override /Model: base_resnet.yaml
 
 # all parameters below will be merged with parameters from default configurations set above
 # this allows you to overwrite only specified parameters
@@ -15,7 +15,7 @@ name: "debug"
 
 seed: 12345
 
-trainer:
+Trainer:
   min_epochs: 10
   max_epochs: 10
   gradient_clip_val: 0.5
@@ -23,7 +23,7 @@ trainer:
 Optimizer:
   lr: 0.003
 
-datamodule:
+Datamodule:
   batch_size: 64
 
 

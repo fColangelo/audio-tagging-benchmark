@@ -21,19 +21,19 @@ audio_transform:
 
 training_dataset:
   _target_: src.datamodules.components.datasets.FSD50K
-  audio_cfg: ${datamodule.audio_transform}
+  audio_cfg: ${Datamodule.audio_transform}
   augum_cfg:
       time_domain: 
       frequency_domain:
         toTensor:
           _target_: torchvision.transforms.ToTensor
-  data_dir: ${datamodule.data_dir}
+  data_dir: ${Datamodule.data_dir}
   mode: "train"
   
 validation_dataset:
   _target_: src.datamodules.components.datasets.FSD50K
-  audio_cfg: ${datamodule.audio_transform}
-  work_dir: ${datamodule.data_dir}
+  audio_cfg: ${Datamodule.audio_transform}
+  work_dir: ${Datamodule.data_dir}
   augum_cfg:
       time_domain: 
       frequency_domain:
@@ -44,8 +44,8 @@ validation_dataset:
 
 test_dataset:
   _target_: src.datamodules.components.datasets.FSD50K
-  audio_cfg: ${datamodule.audio_transform}
-  work_dir: ${datamodule.data_dir}
+  audio_cfg: ${Datamodule.audio_transform}
+  work_dir: ${Datamodule.data_dir}
   augum_cfg:
       time_domain: 
       frequency_domain:

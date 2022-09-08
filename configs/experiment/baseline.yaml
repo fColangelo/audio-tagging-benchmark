@@ -4,27 +4,27 @@
 # python train.py experiment=example
 
 defaults:
-  - override /datamodule: FSD50K.yaml
-  - override /model: base_resnet.yaml
-  - override /trainer: default.yaml
+  - override /Datamodule: FSD50K.yaml
+  - override /Model: base_resnet.yaml
+  - override /Trainer: default.yaml
 
 # name of the run determines folder name in logs
 name: "FSD50K_baseline"
 
 seed: 12345
 
-trainer:
+Trainer:
   min_epochs: 10
   max_epochs: 10
   gradient_clip_val: 0.5
 
-model:
+Model:
   lr: 0.002
   net:
     lin1_size: 128
     lin2_size: 256
     lin3_size: 64
 
-datamodule:
+Datamodule:
   batch_size: 64
 
